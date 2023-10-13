@@ -428,6 +428,7 @@ struct sde_crtc_state {
 	struct sde_hw_scaler3_lut_cfg scl3_lut_cfg;
 
 	struct sde_core_perf_params new_perf;
+	bool color_invert_on;
 	struct sde_ctl_sbuf_cfg sbuf_cfg;
 	u32 sbuf_prefill_line;
 	u64 sbuf_clk_rate[2];

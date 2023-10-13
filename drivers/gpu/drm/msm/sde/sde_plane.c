@@ -3947,11 +3947,13 @@ struct sde_csc_cfg *sde_plane_get_csc_cfg(struct drm_plane *plane)
 	struct sde_plane_state *pstate;
 	struct sde_csc_cfg *csc_ptr;
 	struct sde_plane *psde;
+	struct drm_crtc *drm_crtc = plane->state->crtc;
+	struct sde_crtc_state *cstate = to_sde_crtc_state(drm_crtc->state);
 
 	psde = to_sde_plane(plane);
 	pstate = to_sde_plane_state(plane->state);
 
-	if (sde_plane_is_fod_layer(&pstate->base))
+	if (sde_plane_is_fod_layer(&pstate->base) || cstate->color_invert_on)
 		csc_ptr = NULL;
 	else if (psde->csc_pcc_ptr)
 		csc_ptr = psde->csc_pcc_ptr;
@@ -4015,11 +4017,15 @@ static inline void _sde_plane_set_csc_pcc(struct sde_plane *psde,
 					  struct drm_crtc *crtc)
 {
 	const struct drm_msm_pcc *pcc_cfg = sde_cp_crtc_get_pcc_cfg(crtc);
+	struct sde_crtc_state *cstate = to_sde_crtc_state(crtc->state);
 
 	if (pcc_cfg == psde->pcc_cfg)
 		return;
 
 	psde->pcc_cfg = pcc_cfg;
+
+	if (cstate->color_invert_on)
+		return;
 
 	if (pcc_cfg) {
 		unsigned int i = 0;
