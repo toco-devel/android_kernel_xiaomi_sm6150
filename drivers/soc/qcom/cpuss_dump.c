@@ -31,6 +31,9 @@ static int cpuss_dump_probe(struct platform_device *pdev)
 	int ret;
 	u32 size, id;
 
+	if (!IS_ENABLED(CONFIG_QCOM_CPUSS_DUMP))
+		return;
+
 	for_each_available_child_of_node(node, child_node) {
 		dump_node = of_parse_phandle(child_node, "qcom,dump-node", 0);
 
