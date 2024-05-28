@@ -29,10 +29,10 @@
 #include <linux/bug.h>
 #include <linux/ratelimit.h>
 #include <linux/sysfs.h>
+#include <trace/events/error_report.h>
 #define CREATE_TRACE_POINTS
 #include <trace/events/exception.h>
 #include <soc/qcom/minidump.h>
-#include <trace/events/error_report.h>
 
 #define PANIC_TIMER_STEP 100
 #define PANIC_BLINK_SPD 18
